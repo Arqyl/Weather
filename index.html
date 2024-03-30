@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <div class="container">
+        <h1>
+            Forecast for your township
+        </h1>
+        <input type="text" placeholder="Введите ваш город" id="input" value="Аален"> 
+        <button type="submit" href="#" id="btn">
+            Search
+        </button>
+        <div class="card-wrapper">
+            <div class="main-card">
+                <h3 class="city-name"></h3>
+                <h3 class="day"></h3>
+                <div class="main-info">
+                    <div class="main-info-wrapper">
+                        <table class="temperature-now">
+                            <tr class="temperature-now__tr">
+
+                            </tr>
+                        </table>
+                        <p class="state"></p>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="card" id="card"> 
+                <div class="card-content">
+                    <h3 class="day"></h3>
+                    <table class="day-temperature">
+                        <tr class="time time_1">
+                        </tr>
+                        <tr class="time-temperature time-temperature_1">
+                        </tr>
+                    </table>
+                </div>
+                <img src="icons8-дождь-96.png" alt="" class="day-weather">
+            </div> -->
+        </div>
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>
