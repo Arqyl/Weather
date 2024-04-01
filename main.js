@@ -12,22 +12,23 @@ function investHours(weatherData, classInner) {
     hours = `${hours}`.padStart(2, '0')
     let minutes = time.getMinutes()
     minutes = `${minutes}`.padStart(2, '0')
-    let finalTime = hours + ':' + minutes;
-    timeTd.innerHTML = finalTime; 
+    let fullTime = hours + ':' + minutes;
+    timeTd.innerHTML = fullTime; 
 
-    document.querySelector(classInner).appendChild(timeTd);
+    return timeTd
 }
+// сделать через ретерн 
 function investTemperature(weatherData, classInner) {
     let timeWeatherTd = document.createElement('td');
 
-    let weather = Math.round(weatherData.main.temp - 273)
-    let timeWeather = weather + '°';
-    if (weather > 0) {
+    let temperature = Math.round(weatherData.main.temp - 273)
+    let timeWeather = temperature + '°';
+    if (temperature > 0) {
         timeWeather = '+' + timeWeather;
     }
     timeWeatherTd.innerHTML = timeWeather;
-    document.querySelector(classInner).appendChild(timeWeatherTd);
-
+    
+    return timeWeatherTd
 }
 const days = {
     0: 'Sunday',
@@ -38,7 +39,7 @@ const days = {
     5: 'Friday',
     6: 'Saturday',
 }
-function createCard(indexOfCard) {
+function createCard() {
     let dayCard = document.createElement('div');
     dayCard.classList.add('card')
     dayCard.id = 'card';
@@ -46,9 +47,9 @@ function createCard(indexOfCard) {
     `<div class="card-content">
         <h3 class="day"></h3>
         <table class="day-temperature">
-            <tr class="time time_${indexOfCard}">
+            <tr class="time">
             </tr>
-            <tr class="time-temperature time-temperature_${indexOfCard}">
+            <tr class="time-temperature">
             </tr>
         </table>
     </div>
@@ -66,15 +67,17 @@ btn.addEventListener('click', function() {
         return resp.json(); 
     })
     .then(function(res) {
-        document.querySelectorAll('.card').
-        
-        document.querySelector('.card-wrapper').classList.add('active');
-
         let weatherList = res.list;
 
         document.querySelector('.city-name').innerHTML = res.city.name;
-        document.querySelector('.state').innerHTML = weatherList[0].weather[0].main
-   
+        document.querySelector('.state').innerHTML = weatherList[0].weather[0].main;
+        temperatureNow = Math.round(weatherList[0].main.temp - 273);
+        if (temperatureNow > 0) {
+            temperatureNow = '+' + temperatureNow;
+        }
+        document.querySelector('.temperature-now__tr').innerHTML = temperatureNow
+        document.querySelector('.main-card').classList.add('active');
+
         let endOfDay1 = Math.round((getEndOfDay(1))/1000);
         let endOfDay2 = Math.round((getEndOfDay(2))/1000);
         let endOfDay3 = Math.round((getEndOfDay(3))/1000);
@@ -86,36 +89,11 @@ btn.addEventListener('click', function() {
         let currentDay = new Date(weatherListToday[0].dt * 1000).getDay();
         currentDay = days[currentDay];
         document.querySelector('.day').innerHTML = currentDay;
-
-        // let indexOfCard = 1;
-        // createCard(indexOfCard);
-        for (let index = 1; index <= 3; index++) {
-            createCard(index);
-            switch(index) {
-                case 1: 
-                    weatherListToday.forEach(weatherData => {
-                        investHours(weatherData, '.time_' + index);
-                        investTemperature(weatherData, '.time-temperature_' + index);
-                    });
-                    break;
-                case 2:
-                    weatherListSecondDay.forEach(weatherData => {
-                        investHours(weatherData, '.time_' + index);
-                        investTemperature(weatherData, '.time-temperature_' + index);
-                    });
-                    break;
-                case 3:
-                    weatherListThirdDay.forEach(weatherData => {
-                        investHours(weatherData, '.time_' + index);
-                        investTemperature(weatherData, '.time-temperature_' + index);
-                    });
-                    break;
-            }
+        for (let index = 0; index <= 2; index++) {
+            createCard();
+            let cards = document.querySelectorAll('.card');
+            let thisCard = cards[index];
+            console.log(thisCard);
         }
-
-
-
-
-
     })
 })    

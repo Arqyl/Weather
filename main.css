@@ -117,11 +117,11 @@ input:hover {
     border-radius: 10px;
     padding: 20px;
     margin: 30px auto 0;
-    display: flex;
+    display: none;
     flex-direction: column;
 }
-.card-wrapper.active {
-    display: flex;
+.main-card.active {
+    display: flex; 
 }
 .main-graf-wrapper {
     width: 500px;
@@ -130,7 +130,7 @@ input:hover {
     padding: 10px;
 }
 .card-wrapper {
-    display: none;
+    display: flex;
     flex-wrap: wrap;
     align-content: center;
     justify-content: space-around;
