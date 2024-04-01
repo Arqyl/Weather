@@ -4,7 +4,7 @@ function getEndOfDay(dayData) {
     let endOfDay = new Date(new Date(now.getFullYear(), now.getMonth(), now.getDate() + dayData) - 1);
     return endOfDay.getTime();
 }
-function investHours(weatherData, classInner) {
+function investHours(weatherData) {
     let timeTd = document.createElement('td');
 
     let time = new Date(weatherData.dt * 1000);
@@ -17,8 +17,7 @@ function investHours(weatherData, classInner) {
 
     return timeTd
 }
-// сделать через ретерн 
-function investTemperature(weatherData, classInner) {
+function investTemperature(weatherData) {
     let timeWeatherTd = document.createElement('td');
 
     let temperature = Math.round(weatherData.main.temp - 273)
@@ -82,18 +81,25 @@ btn.addEventListener('click', function() {
         let endOfDay2 = Math.round((getEndOfDay(2))/1000);
         let endOfDay3 = Math.round((getEndOfDay(3))/1000);
 
-        let weatherListToday = weatherList.filter((weatherData) => weatherData.dt <= endOfDay1)
-        let weatherListSecondDay = weatherList.filter((weatherData) => weatherData.dt <= endOfDay2 && weatherData.dt > endOfDay1)
-        let weatherListThirdDay = weatherList.filter((weatherData) => weatherData.dt <= endOfDay3 && weatherData.dt > endOfDay2)
-        
-        let currentDay = new Date(weatherListToday[0].dt * 1000).getDay();
+        let weatherList0 = weatherList.filter((weatherData) => weatherData.dt <= endOfDay1)
+        let weatherList1 = weatherList.filter((weatherData) => weatherData.dt <= endOfDay2 && weatherData.dt > endOfDay1)
+        let weatherList2 = weatherList.filter((weatherData) => weatherData.dt <= endOfDay3 && weatherData.dt > endOfDay2)
+        let weatherListArray = [weatherList0, weatherList1, weatherList2]
+        let currentDay = new Date(weatherList0[0].dt * 1000).getDay();
         currentDay = days[currentDay];
         document.querySelector('.day').innerHTML = currentDay;
         for (let index = 0; index <= 2; index++) {
             createCard();
-            let cards = document.querySelectorAll('.card');
-            let thisCard = cards[index];
-            console.log(thisCard);
+            let time = document.querySelectorAll('.time');
+            let temperature = document.querySelectorAll('.time-temperature');
+            let thisTime = time[index];
+            let thisTemperature = temperature[index];
+            weatherListArray[index].forEach(weatherList => {
+                thisTime.innerHTML += investHours(weatherList)
+                // thisTemperature.innerHTML += investTemperature(weatherList)
+                console.log(thisTime.innerHTML);
+                console.log(investHours(weatherList));
+            });
         }
     })
 })    
