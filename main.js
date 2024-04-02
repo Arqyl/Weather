@@ -29,6 +29,12 @@ function investTemperature(weatherData) {
     
     return timeWeatherTd
 }
+function investDay(weatherListArray, weatherDataIndex) {
+    let thisDayUnix = weatherListArray[weatherDataIndex][0].dt;
+    let thisDay = new Date(thisDayUnix * 1000).getDay();
+    thisDay = days[thisDay];
+    // console.log(thisDay);
+}
 const days = {
     0: 'Sunday',
     1: 'Monday',
@@ -38,7 +44,8 @@ const days = {
     5: 'Friday',
     6: 'Saturday',
 }
-function createCard() {
+function createCard(emptyCards) {
+    if (emptyCards == 0) {
     let dayCard = document.createElement('div');
     dayCard.classList.add('card')
     dayCard.id = 'card';
@@ -55,8 +62,17 @@ function createCard() {
     <img src="icons8-дождь-96.png" alt="" class="day-weather">`;
     dayCard.innerHTML = dayCardInner;
     document.querySelector('.card-wrapper').appendChild(dayCard);
+    }
 }
-
+function activateMaincard(res, weatherList) {
+    document.querySelector('.city-name').innerHTML = res.city.name;
+    document.querySelector('.state').innerHTML = weatherList[0].weather[0].main;
+    temperatureNow = Math.round(weatherList[0].main.temp - 273);
+    if (temperatureNow > 0) {
+        temperatureNow = '+' + temperatureNow;
+    }
+    document.querySelector('.main-card').classList.add('active');
+}
 btn.addEventListener('click', function() {
 
     city = document.getElementById('input').value
@@ -67,33 +83,30 @@ btn.addEventListener('click', function() {
     })
     .then(function(res) {
         let weatherList = res.list;
+        activateMaincard(res, weatherList) 
 
-        document.querySelector('.city-name').innerHTML = res.city.name;
-        document.querySelector('.state').innerHTML = weatherList[0].weather[0].main;
-        temperatureNow = Math.round(weatherList[0].main.temp - 273);
-        if (temperatureNow > 0) {
-            temperatureNow = '+' + temperatureNow;
-        }
-        document.querySelector('.temperature-now__tr').innerHTML = temperatureNow
-        document.querySelector('.main-card').classList.add('active');
+        let endOfDay1 = Math.round((getEndOfDay(1))/1000),
+            endOfDay2 = Math.round((getEndOfDay(2))/1000),
+            endOfDay3 = Math.round((getEndOfDay(3))/1000);
 
-        let endOfDay1 = Math.round((getEndOfDay(1))/1000);
-        let endOfDay2 = Math.round((getEndOfDay(2))/1000);
-        let endOfDay3 = Math.round((getEndOfDay(3))/1000);
+        let weatherListMain = weatherList.filter((weatherData) => weatherData.dt <= endOfDay1),
+            weatherList1 = weatherList.filter((weatherData) => weatherData.dt <= endOfDay2 && weatherData.dt > endOfDay1),
+            weatherList2 = weatherList.filter((weatherData) => weatherData.dt <= endOfDay3 && weatherData.dt > endOfDay2),
+            weatherListArray = [weatherListMain, weatherList1, weatherList2];
 
-        let weatherList0 = weatherList.filter((weatherData) => weatherData.dt <= endOfDay1)
-        let weatherList1 = weatherList.filter((weatherData) => weatherData.dt <= endOfDay2 && weatherData.dt > endOfDay1)
-        let weatherList2 = weatherList.filter((weatherData) => weatherData.dt <= endOfDay3 && weatherData.dt > endOfDay2)
-        let weatherListArray = [weatherList0, weatherList1, weatherList2]
-        let currentDay = new Date(weatherList0[0].dt * 1000).getDay();
+        let currentDay = new Date(weatherListMain[0].dt * 1000).getDay();
         currentDay = days[currentDay];
-        document.querySelector('.day').innerHTML = currentDay;
-        for (let index = 0; index <= 2; index++) {
-            createCard();
+        document.querySelector('#current-day').innerHTML = currentDay;
+
+        for (let index = 0; index <= weatherListArray.length - 1; index++) {
+            let emptyCards = document.querySelectorAll('.card').length - index;
+            console.log(emptyCards);
+            createCard(emptyCards);
             let time = document.querySelectorAll('.time');
             let temperature = document.querySelectorAll('.time-temperature');
             let thisTime = time[index];
             let thisTemperature = temperature[index];
+            investDay(weatherListArray, index)
             weatherListArray[index].forEach(weatherList => {
                 thisTemperature.appendChild(investTemperature(weatherList));
                 thisTime.appendChild(investHours(weatherList));

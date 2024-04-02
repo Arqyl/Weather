@@ -74,8 +74,12 @@ input:hover {
     font-size: 40px;
     text-align: center;
 }
-.temperature-now {
+.main-temperature td:first-child {
     font-size: 60px;
+    margin-left: 20px;
+}
+.main-time td:first-child {
+    font-size: 40px;
     margin-left: 20px;
 }
 .feels-like {
