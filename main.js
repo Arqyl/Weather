@@ -95,10 +95,8 @@ btn.addEventListener('click', function() {
             let thisTime = time[index];
             let thisTemperature = temperature[index];
             weatherListArray[index].forEach(weatherList => {
-                thisTime.innerHTML += investHours(weatherList)
-                // thisTemperature.innerHTML += investTemperature(weatherList)
-                console.log(thisTime.innerHTML);
-                console.log(investHours(weatherList));
+                thisTemperature.appendChild(investTemperature(weatherList));
+                thisTime.appendChild(investHours(weatherList));
             });
         }
     })
