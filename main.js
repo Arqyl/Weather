@@ -44,8 +44,7 @@ const days = {
     5: 'Friday',
     6: 'Saturday',
 }
-function createCard(emptyCards) {
-    if (emptyCards == 0) {
+function createCard() {
     let dayCard = document.createElement('div');
     dayCard.classList.add('card')
     dayCard.id = 'card';
@@ -62,7 +61,6 @@ function createCard(emptyCards) {
     <img src="icons8-дождь-96.png" alt="" class="day-weather">`;
     dayCard.innerHTML = dayCardInner;
     document.querySelector('.card-wrapper').appendChild(dayCard);
-    }
 }
 function activateMaincard(res, weatherList) {
     document.querySelector('.city-name').innerHTML = res.city.name;
@@ -97,15 +95,18 @@ btn.addEventListener('click', function() {
         let currentDay = new Date(weatherListMain[0].dt * 1000).getDay();
         currentDay = days[currentDay];
         document.querySelector('#current-day').innerHTML = currentDay;
-
         for (let index = 0; index <= weatherListArray.length - 1; index++) {
-            let emptyCards = document.querySelectorAll('.card').length - index;
-            console.log(emptyCards);
-            createCard(emptyCards);
             let time = document.querySelectorAll('.time');
             let temperature = document.querySelectorAll('.time-temperature');
             let thisTime = time[index];
             let thisTemperature = temperature[index];
+            if (thisTime == undefined) {
+                createCard();
+                time = document.querySelectorAll('.time');
+                temperature = document.querySelectorAll('.time-temperature');
+                thisTime = time[index];
+                thisTemperature = temperature[index];
+            }
             investDay(weatherListArray, index)
             weatherListArray[index].forEach(weatherList => {
                 thisTemperature.appendChild(investTemperature(weatherList));
