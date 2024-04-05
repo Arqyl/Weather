@@ -62,17 +62,28 @@ function createCard() {
     dayCard.innerHTML = dayCardInner;
     document.querySelector('.card-wrapper').appendChild(dayCard);
 }
+if (typeof document.querySelector('.card-wrapper').innerHTML == '') {
+    console.log(typeof document.querySelector('.card-wrapper').innerHTML);
+}
+
+function deleteCard() {
+    let containsElements = document.querySelector('.card-wrapper').contains(document.querySelector('.card'))
+    if (containsElements == true) {
+        document.querySelector('.card-wrapper').innerHTML = '';
+        document.querySelector('.city-name').innerHTML = '';
+        document.querySelector('.state').innerHTML = '';
+        document.querySelector('.time').innerHTML = '';
+        document.querySelector('.time-temperature').innerHTML = '';
+    }
+}
 function activateMaincard(res, weatherList) {
     document.querySelector('.city-name').innerHTML = res.city.name;
     document.querySelector('.state').innerHTML = weatherList[0].weather[0].main;
-    temperatureNow = Math.round(weatherList[0].main.temp - 273);
-    if (temperatureNow > 0) {
-        temperatureNow = '+' + temperatureNow;
-    }
     document.querySelector('.main-card').classList.add('active');
 }
+let btnStatus = false;
 btn.addEventListener('click', function() {
-
+    deleteCard()
     city = document.getElementById('input').value
     let url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=1d0bfe9ca98d98c1185cf8a1d898a737`;
     fetch(url)
@@ -93,17 +104,17 @@ btn.addEventListener('click', function() {
             weatherListArray = [weatherListMain, weatherList1, weatherList2];
 
         for (let index = 0; index <= weatherListArray.length - 1; index++) {
-            let time = document.querySelectorAll('.time');
-            let thisTime = time[index];
+            let time = document.querySelectorAll('.time'),
+                thisTime = time[index];
             if (thisTime == undefined) {
                 createCard();
                 time = document.querySelectorAll('.time');
                 thisTime = time[index];
             }
-            let temperature = document.querySelectorAll('.time-temperature');
-            let thisTemperature = temperature[index];
-            let day = document.querySelectorAll('.day');
-            let thisDay = day[index];
+            let temperature = document.querySelectorAll('.time-temperature'),
+                thisTemperature = temperature[index];
+            let day = document.querySelectorAll('.day'),
+                thisDay = day[index];
             thisDay.innerHTML = investDay(weatherListArray, index)
             investDay(weatherListArray, index)
             weatherListArray[index].forEach(weatherList => {
