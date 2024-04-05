@@ -14,6 +14,10 @@
     color: rgb(255, 255, 255);
     padding: 50px 0;
 }
+h1,h2,h3,h4,h5,h6,p {
+    padding: 0;
+    margin: 0;
+}
 h1 {
     font-size: 60px;
     text-align: center;
@@ -78,7 +82,7 @@ input:hover {
     font-size: 60px;
     margin-left: 20px;
 }
-.main-time td:first-child {
+.main-time > td {
     font-size: 40px;
     margin-left: 20px;
 }
@@ -123,9 +127,11 @@ input:hover {
     margin: 30px auto 0;
     display: none;
     flex-direction: column;
+    background: #fdfdfd;
+    color: #47a7f7
 }
 .main-card.active {
-    display: flex; 
+    display: flex;
 }
 .main-graf-wrapper {
     width: 500px;
@@ -141,11 +147,19 @@ input:hover {
     flex-direction: column;
 }
 .day {
-    font-size: 30px;
-    margin-bottom: 20px;
+    font-size: 40px;
+    align-content: baseline;
+    align-content: center;
 }
 .day-weather {
     display: block;
     height: 96px;
     width: 96px;
+}
+.day-time-holder {
+    display: flex;
+    width: 400px;
+}
+.main-time > td:first-child {
+    margin-right: 50px;
 }
