@@ -44,7 +44,7 @@ const days = {
     5: 'Friday',
     6: 'Saturday',
 }
-function createCard() {
+function createCard(linkImg) {
     let dayCard = document.createElement('div');
     dayCard.classList.add('card')
     dayCard.id = 'card';
@@ -58,12 +58,9 @@ function createCard() {
             </tr>
         </table>
     </div>
-    <img src="icons8-дождь-96.png" alt="" class="day-weather">`;
+    <img class="card-img" src="${linkImg}" alt="">`;
     dayCard.innerHTML = dayCardInner;
     document.querySelector('.card-wrapper').appendChild(dayCard);
-}
-if (typeof document.querySelector('.card-wrapper').innerHTML == '') {
-    console.log(typeof document.querySelector('.card-wrapper').innerHTML);
 }
 
 function deleteCard() {
@@ -74,6 +71,7 @@ function deleteCard() {
         document.querySelector('.state').innerHTML = '';
         document.querySelector('.time').innerHTML = '';
         document.querySelector('.time-temperature').innerHTML = '';
+        document.querySelector('.day').innerHTML = '';
     }
 }
 function activateMaincard(res, weatherList) {
@@ -104,10 +102,19 @@ btn.addEventListener('click', function() {
             weatherListArray = [weatherListMain, weatherList1, weatherList2];
 
         for (let index = 0; index <= weatherListArray.length - 1; index++) {
+            let iconcodeIndex = weatherListArray[index].length - 1;
+            if (iconcodeIndex <= 3) {
+                iconcode = weatherListArray[index][iconcodeIndex].weather[0].icon;
+            } else {
+                iconcode = weatherListArray[index][3].weather[0].icon;
+            }
+            let linkImg = " https://openweathermap.org/img/wn/" + iconcode + "@2x.png"
+            document.querySelector('.maincard-img').src = linkImg;
+
             let time = document.querySelectorAll('.time'),
                 thisTime = time[index];
             if (thisTime == undefined) {
-                createCard();
+                createCard(linkImg);
                 time = document.querySelectorAll('.time');
                 thisTime = time[index];
             }

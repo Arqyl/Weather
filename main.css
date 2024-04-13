@@ -82,16 +82,15 @@ input:hover {
     font-size: 60px;
     margin-left: 20px;
 }
-.main-time > td {
-    font-size: 40px;
-    margin-left: 20px;
+.main-temperature {
+    font-size: 30px;
+}
+.main-time {
+    font-size: 30px;
 }
 .feels-like {
     font-size: 20px;
     margin: 0;
-}
-.main-info-wrapper {
-    margin-left: 30px;
 }
 .main-info {
     font-size: 20px;
@@ -116,9 +115,6 @@ input:hover {
 .city-undefined.active {
     display: block;
 }
-
-/* cards */
-
 
 .main-card {
     width: 700px;
@@ -148,7 +144,6 @@ input:hover {
 }
 .day {
     font-size: 40px;
-    align-content: baseline;
     align-content: center;
 }
 .day-weather {
@@ -158,8 +153,29 @@ input:hover {
 }
 .day-time-holder {
     display: flex;
-    width: 400px;
+    flex-direction: column;
 }
-.main-time > td:first-child {
-    margin-right: 50px;
+.main-time td:first-child {
+    font-size: 60px;
+}
+.card-img {
+    height: 80px;
+    width: 80px;
+    background: #47a7f7;
+    border-radius: 50%;
+}
+.maincard-img {
+    height: 140px;
+    width: 140px;
+    background: #47a7f7;
+    border-radius: 50%;
+}
+.city-wrapper {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 40px 0 20px;
+    margin-bottom: 30px;
+}
+.day-time {
+    border-bottom: 1px solid #47a7f7;
 }
